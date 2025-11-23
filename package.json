@@ -1,0 +1,59 @@
+{
+  "name": "gameluncher_app_ver3",
+  "version": "1.0.0",
+  "main": "dist/main.js",
+  "description": "A modern game launcher application.",
+  "author": "Your Name",
+  "scripts": {
+    "start": "npm run build:electron && concurrently \"npm:dev:*\"",
+    "dev:electron": "cross-env NODE_ENV=development electron .",
+    "dev:react": "npm run dev --prefix renderer",
+    "build:electron": "tsc",
+    "build:react": "npm run build --prefix renderer",
+    "start:prod": "npm run build:electron && npm run build:react && cross-env NODE_ENV=production electron .",
+    "dist": "npm run build:react && npm run build:electron && electron-builder",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "cross-env": "^10.1.0",
+    "electron": "^39.2.3",
+    "electron-builder": "^26.0.12",
+    "electron-updater": "^6.6.2",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "axios": "^1.13.2",
+    "electron-store": "^11.0.2",
+    "jotai": "^2.15.1",
+    "uuid": "^13.0.0",
+    "vdf-parser": "^1.2.1"
+  },
+  "build": {
+    "appId": "com.example.gameluncher",
+    "productName": "Game Launcher",
+    "files": [
+      "dist/**/*",
+      "renderer/dist/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets",
+      "output": "release"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "your-github-username",
+      "repo": "your-github-repo-name"
+    }
+  }
+}
